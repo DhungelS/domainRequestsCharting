@@ -6,14 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
-  />
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
   <link rel="stylesheet" href="./css/styles.css">
 </head>
 
 <figure class="highcharts-figure">
   <div id="container"></div>
+  <form action="/action_page.php">
+    <label for="fname">Value: </label>
+    <input id='value' name="Value" type="number" min="0" step="1"/>
+    <br/>
+    <input type="radio"  name="human" id="human"/>
+    <label for="human">Human Request</label>
+    <br/>
+    <input type="radio" name="good_bot" id="good_bot"/>
+    <label for="good_bot">Good Bot Request</label>
+    <br/>
+    <input type="radio"  name="bad_bot" id="bad_bot"/>
+    <label for="bad_boty">Bad Bot Reqeust</label>
+    <br/>
+    <input type="radio"  name="whitelist" id="whitelist"/>
+    <label for="whitelist">Whitelist</label>
+    <br/>
+    <input type="submit" value="Submit">
+  </form>
 </figure>
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
