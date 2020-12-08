@@ -1,19 +1,33 @@
 
 const main = ( async () => {
 
-const fetchedData = await (await fetch("../data/data.json")).json()
-const dataSource = fetchedData.categorized_domain_requests
-const humanTotalSeries = []
+// const fetchedData = await (await fetch("../data/data.json")).json()
 
- dataSource && dataSource.length > 0 && dataSource.map(item => {
-  humanTotalSeries.push(item.human_total)
+const seriesData = [
+  {name: 'Human requests', data: [] },
+{name: 'Good Bot requests', data: [] },
+{name: 'Bad Bot requests', data: [] },
+{name: 'Whitelist requests', data: [] },
+]
 
-})
-console.log('TST', humanTotalSeries)
+
 Highcharts.getJSON(
-    'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
+  "../data/data.json",
     function (data) {
-        console.log('INSIDE', data)
+
+      const generateTimestamp = (date) => {
+        const splitDate = date.split("-")
+        const stamp = new Date(splitDate[0], splitDate[1], splitDate[2])
+        return stamp.getTime();
+      }
+      const dataSource = data.categorized_domain_requests
+       dataSource && dataSource.length > 0 && dataSource.map(item => {
+        seriesData[0].data.push([generateTimestamp(item.summary_date), item.human_total])
+        seriesData[1].data.push([generateTimestamp(item.summary_date), item.good_bot_total])
+        seriesData[2].data.push([generateTimestamp(item.summary_date), item.bad_bot_total])
+        seriesData[3].data.push([generateTimestamp(item.summary_date), item.whitelist_total])
+      })
+
       Highcharts.chart('container', {
         chart: {
           zoomType: 'x'
@@ -63,11 +77,9 @@ Highcharts.getJSON(
           }
         },
   
-        series: [{
-          type: 'area',
-          name: 'USD to EUR',
-          data: data
-        }]
+        series: seriesData
+
+        
       });
     }
   );
