@@ -1,19 +1,55 @@
 
-const main = ( async () => {
+const main = (() => {
 
-// const fetchedData = await (await fetch("../data/data.json")).json()
+  // const fetchedData = await (await fetch("../data/data.json")).json()
 
-const seriesData = [
-  {name: 'Human requests', data: [] },
-{name: 'Good Bot requests', data: [] },
-{name: 'Bad Bot requests', data: [] },
-{name: 'Whitelist requests', data: [] },
-]
+  const seriesData = [
+    { name: 'Human requests', data: [] },
+    { name: 'Good Bot requests', data: [] },
+    { name: 'Bad Bot requests', data: [] },
+    { name: 'Whitelist requests', data: [] },
+  ]
 
 
-Highcharts.getJSON(
-  "../data/data.json",
+  Highcharts.getJSON(
+    "../data/data.json",
     function (data) {
+
+      const requestInput = document.getElementById('requestNumbers')
+      const submitBtn = document.getElementById("submit")
+      const dateInput = document.getElementById("date")
+      const radios = document.getElementsByName("radio");
+
+
+      let val = 0;
+      let date = new Date().getTime();
+
+      requestInput.addEventListener("keyup", (e) => {
+        val = parseInt(e.target.value)
+      })
+
+      dateInput.addEventListener("change", (e) => {
+        const newDate = new Date(e.target.value).getTime()
+        date = newDate
+      })
+
+
+      submitBtn.addEventListener('click', (e) => {
+        if (document.getElementById('human').checked) {
+          seriesData[0].data.push([date, val])
+          chart.series[0].setData(seriesData[0].data, true)
+        } else if (document.getElementById('good_bot').checked) {
+          seriesData[1].data.push([date, val])
+          chart.series[1].setData(seriesData[1].data, true)
+        } else if (document.getElementById('bad_bot').checked) {
+          seriesData[2].data.push([date, val])
+          chart.series[2].setData(seriesData[2].data, true)
+        } else if (document.getElementById('whitelist').checked) {
+          seriesData[3].data.push([date, val])
+          chart.series[3].setData(seriesData[3].data, true)
+        }
+        e.preventDefault()
+      })
 
       const generateTimestamp = (date) => {
         const splitDate = date.split("-")
@@ -21,14 +57,14 @@ Highcharts.getJSON(
         return stamp.getTime();
       }
       const dataSource = data.categorized_domain_requests
-       dataSource && dataSource.length > 0 && dataSource.map(item => {
+      dataSource && dataSource.length > 0 && dataSource.map(item => {
         seriesData[0].data.push([generateTimestamp(item.summary_date), item.human_total])
         seriesData[1].data.push([generateTimestamp(item.summary_date), item.good_bot_total])
         seriesData[2].data.push([generateTimestamp(item.summary_date), item.bad_bot_total])
         seriesData[3].data.push([generateTimestamp(item.summary_date), item.whitelist_total])
       })
 
-      Highcharts.chart('container', {
+      const chart = Highcharts.chart('container', {
         chart: {
           zoomType: 'x'
         },
@@ -76,10 +112,10 @@ Highcharts.getJSON(
             threshold: null
           }
         },
-  
+
         series: seriesData
 
-        
+
       });
     }
   );

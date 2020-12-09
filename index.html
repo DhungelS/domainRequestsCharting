@@ -14,23 +14,26 @@
 
 <figure class="highcharts-figure">
   <div id="container"></div>
-  <form action="/action_page.php">
-    <label for="fname">Value: </label>
-    <input id='value' name="Value" type="number" min="0" step="1"/>
+  <form>
+    <label>Value: </label>
+    <input id='requestNumbers' name="Value" type="number" min="0" step="1"/>
     <br/>
-    <input type="radio"  name="human" id="human"/>
+    <label>Date: </label>
+    <input id='date' name="date" type="date"/>
+    <br/>
+    <input type="radio"  name="radio" id="human"/>
     <label for="human">Human Request</label>
     <br/>
-    <input type="radio" name="good_bot" id="good_bot"/>
+    <input type="radio" name="radio" id="good_bot"/>
     <label for="good_bot">Good Bot Request</label>
     <br/>
-    <input type="radio"  name="bad_bot" id="bad_bot"/>
+    <input type="radio"  name="radio" id="bad_bot"/>
     <label for="bad_boty">Bad Bot Reqeust</label>
     <br/>
-    <input type="radio"  name="whitelist" id="whitelist"/>
+    <input type="radio"  name="radio" id="whitelist"/>
     <label for="whitelist">Whitelist</label>
     <br/>
-    <input type="submit" value="Submit">
+    <input type="submit" id='submit' value="Submit">
   </form>
 </figure>
 
