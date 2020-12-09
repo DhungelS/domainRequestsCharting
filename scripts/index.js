@@ -3,7 +3,6 @@ const Main = (() => {
 
   // const fetchedData = await (await fetch("../data/data.json")).json()
 
-
   Highcharts.getJSON(
     "../data/data.json",
     function (data) {
@@ -14,7 +13,9 @@ const Main = (() => {
 
       let val = 0;
       let date = new Date().getTime();
-
+    
+      const store = Store.seriesData
+      
       requestInput.addEventListener("keyup", (e) => {
         val = parseInt(e.target.value)
       })
@@ -27,17 +28,17 @@ const Main = (() => {
 
       submitBtn.addEventListener('click', (e) => {
         if (document.getElementById('human').checked) {
-          Store.seriesData[0].data.push([date, val])
-          chart.series[0].setData(seriesData[0].data, true)
+         store[0].data.push([date, val])
+          chart.series[0].setData(store[0].data, true)
         } else if (document.getElementById('good_bot').checked) {
-          Store.seriesData[1].data.push([date, val])
-          chart.series[1].setData(seriesData[1].data, true)
+         store[1].data.push([date, val])
+          chart.series[1].setData(store[1].data, true)
         } else if (document.getElementById('bad_bot').checked) {
-          Store.seriesData[2].data.push([date, val])
-          chart.series[2].setData(seriesData[2].data, true)
+         store[2].data.push([date, val])
+          chart.series[2].setData(store[2].data, true)
         } else if (document.getElementById('whitelist').checked) {
-          Store.seriesData[3].data.push([date, val])
-          chart.series[3].setData(seriesData[3].data, true)
+         store[3].data.push([date, val])
+          chart.series[3].setData(store[3].data, true)
         }
         e.preventDefault()
       })
@@ -49,10 +50,10 @@ const Main = (() => {
       }
       const dataSource = data.categorized_domain_requests
       dataSource && dataSource.length > 0 && dataSource.map(item => {
-        Store.seriesData[0].data.push([generateTimestamp(item.summary_date), item.human_total])
-        Store.seriesData[1].data.push([generateTimestamp(item.summary_date), item.good_bot_total])
-        Store.seriesData[2].data.push([generateTimestamp(item.summary_date), item.bad_bot_total])
-        Store.seriesData[3].data.push([generateTimestamp(item.summary_date), item.whitelist_total])
+       store[0].data.push([generateTimestamp(item.summary_date), item.human_total])
+       store[1].data.push([generateTimestamp(item.summary_date), item.good_bot_total])
+       store[2].data.push([generateTimestamp(item.summary_date), item.bad_bot_total])
+       store[3].data.push([generateTimestamp(item.summary_date), item.whitelist_total])
       })
 
       const chart = Highcharts.chart('container', {
@@ -104,7 +105,7 @@ const Main = (() => {
           }
         },
 
-        series: Store.seriesData
+        series: store
 
 
       });
